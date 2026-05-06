@@ -104,7 +104,7 @@ int main() {
             "<html><head><title>Pogoda LIVE</title></head>"
             "<body style='font-family: Arial, sans-serif; text-align: center; background: #f0f2f5; padding: 50px;'>"
             "<div style='background: white; display: inline-block; padding: 30px; border-radius: 15px; shadow: 0 4px 8px rgba(0,0,0,0.1);'>"
-            "<h2>🌍 System Pogodowy v1.0</h2>"
+            "<h2>🌍 System Pogodowy</h2>"
             "<p style='color: #666;'>Autor: Hubert Luszczew</p><hr>"
             "<form action='/'> Lokalizacja: "
             "<select name='city' style='padding: 5px; border-radius: 5px;'>"
