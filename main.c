@@ -98,26 +98,36 @@ int main() {
         char weather_info[50];
         get_weather(selected_city, weather_info);
 
-        printf("[%02d:%02d:%02d] Zapytanie: %s -> %s\n", tm_start.tm_hour, tm_start.tm_min, tm_start.tm_sec, selected_city, weather_info);
+        time_t t_now = time(NULL);
+        struct tm tm_now = *localtime(&t_now);
+        printf("[%02d:%02d:%02d] Zapytanie: %s -> %s\n", tm_now.tm_hour, tm_now.tm_min, tm_now.tm_sec, selected_city, weather_info);
         fflush(stdout);
 
-        char response[4096];
+        char response[8192];
         int len = sprintf(response, "HTTP/1.1 200 OK\nContent-Type: text/html; charset=utf-8\n\n"
             "<html><head><title>Pogoda</title></head>"
             "<body style='font-family: Arial, sans-serif; text-align: center; background: #f0f2f5; padding: 50px;'>"
             "<div style='background: white; display: inline-block; padding: 30px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);'>"
-            "<h2>Pogoda</h2>"
+            "<h2>Serwer Pogodowy</h2>"
             "<p style='color: #666;'>Autor: Hubert Luszczew</p><hr style='border: 0; border-top: 1px solid #eee; margin: 20px 0;'>"
             "<form action='/'> Lokalizacja: "
             "<select name='city' style='padding: 5px; border-radius: 5px; border: 1px solid #ccc;'>"
-                "<option>Lublin</option><option>Warszawa</option><option>Krakow</option>"
-                "<option>Berlin</option><option>Paris</option><option>Madrid</option><option>Rome</option>"
+                "<optgroup label='Polska'>"
+                    "<option>Lublin</option><option>Warszawa</option><option>Krakow</option><option>Gdansk</option><option>Wroclaw</option>"
+                "</optgroup>"
+                "<optgroup label='Niemcy'>"
+                    "<option>Berlin</option><option>Hamburg</option><option>Munich</option><option>Cologne</option><option>Frankfurt</option>"
+                "</optgroup>"
+                "<optgroup label='Wlochy'>"
+                    "<option>Rome</option><option>Milan</option><option>Naples</option><option>Turin</option><option>Palermo</option>"
+                "</optgroup>"
             "</select> "
             "<input type='submit' value='Sprawdz' style='padding: 5px 15px; cursor: pointer; border-radius: 5px; border: 1px solid #ccc; background: #fff;'>"
             "</form>"
             "<h3 style='margin-top: 30px;'>Miasto: %s</h3>"
             "<h1 style='color: #0056b3; font-size: 3em; margin: 10px 0;'>%s</h1>"
-            "</div></body></html>", selected_city, weather_info);
+            "<p style='font-size: 0.8em; color: #999;'>Ostatnia aktualizacja: %02d:%02d:%02d</p>"
+            "</div></body></html>", selected_city, weather_info, tm_now.tm_hour, tm_now.tm_min, tm_now.tm_sec);
 
         write(new_socket, response, len);
         close(new_socket);
