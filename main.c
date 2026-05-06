@@ -63,6 +63,18 @@ int main() {
     int addrlen = sizeof(address);
     char buffer[1024] = {0};
 
+    time_t t_start = time(NULL);
+    struct tm tm_start = *localtime(&t_start);
+
+    printf("=========================================\n");
+    printf(" Serwer Pogodowy - Hubert Luszczew\n");
+    printf(" Data uruchomienia: %04d-%02d-%02d %02d:%02d:%02d\n", 
+            tm_start.tm_year + 1900, tm_start.tm_mon + 1, tm_start.tm_mday,
+            tm_start.tm_hour, tm_start.tm_min, tm_start.tm_sec);
+    printf(" Port: 8080\n");
+    printf("=========================================\n");
+    fflush(stdout);
+
     server_fd = socket(AF_INET, SOCK_STREAM, 0);
     setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 
@@ -86,11 +98,8 @@ int main() {
         char weather_info[50];
         get_weather(selected_city, weather_info);
 
-        printf("Zapytanie: %s -> %s\n", selected_city, weather_info);
+        printf("[%02d:%02d:%02d] Zapytanie: %s -> %s\n", tm_start.tm_hour, tm_start.tm_min, tm_start.tm_sec, selected_city, weather_info);
         fflush(stdout);
-
-        time_t t = time(NULL);
-        struct tm tm = *localtime(&t);
 
         char response[4096];
         int len = sprintf(response, "HTTP/1.1 200 OK\nContent-Type: text/html; charset=utf-8\n\n"
@@ -101,28 +110,14 @@ int main() {
             "<p style='color: #666;'>Autor: Hubert Luszczew</p><hr style='border: 0; border-top: 1px solid #eee; margin: 20px 0;'>"
             "<form action='/'> Lokalizacja: "
             "<select name='city' style='padding: 5px; border-radius: 5px; border: 1px solid #ccc;'>"
-                "<optgroup label='Polska'>"
-                    "<option>Lublin</option><option>Warszawa</option><option>Krakow</option>"
-                "</optgroup>"
-                "<optgroup label='Niemcy'>"
-                    "<option>Berlin</option><option>Hamburg</option><option>Munich</option>"
-                "</optgroup>"
-                "<optgroup label='Francja'>"
-                    "<option>Paris</option><option>Marseille</option><option>Lyon</option>"
-                "</optgroup>"
-                "<optgroup label='Hiszpania'>"
-                    "<option>Madrid</option><option>Barcelona</option><option>Sevilla</option>"
-                "</optgroup>"
-                "<optgroup label='Wlochy'>"
-                    "<option>Rome</option><option>Milan</option><option>Naples</option>"
-                "</optgroup>"
+                "<option>Lublin</option><option>Warszawa</option><option>Krakow</option>"
+                "<option>Berlin</option><option>Paris</option><option>Madrid</option><option>Rome</option>"
             "</select> "
             "<input type='submit' value='Sprawdz' style='padding: 5px 15px; cursor: pointer; border-radius: 5px; border: 1px solid #ccc; background: #fff;'>"
             "</form>"
             "<h3 style='margin-top: 30px;'>Miasto: %s</h3>"
             "<h1 style='color: #0056b3; font-size: 3em; margin: 10px 0;'>%s</h1>"
-            "<p style='font-size: 0.8em; color: #999;'>Ostatnia aktualizacja: %02d:%02d:%02d</p>"
-            "</div></body></html>", selected_city, weather_info, tm.tm_hour, tm.tm_min, tm.tm_sec);
+            "</div></body></html>", selected_city, weather_info);
 
         write(new_socket, response, len);
         close(new_socket);
