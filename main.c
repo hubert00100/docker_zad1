@@ -14,8 +14,9 @@ void get_weather(const char *city, char *result) {
     char *api_key = getenv("WEATHER_API_KEY");
 
     if (api_key == NULL) {
-        strcpy(result, "Blad: Brak klucza API");
-        return;
+        fprintf(stderr, "Blad: Brak klucza API w zmiennych srodowiskowych!\n");
+        fflush(stderr);
+        api_key = "TWOJ_AWARYJNY_KLUCZ"; 
     }
 
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
