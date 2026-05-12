@@ -7,7 +7,7 @@ docker buildx build --platform linux/amd64,linux/arm64 `
   --cache-from type=registry,ref=hubert00100/projekt-pogoda:buildcache `
   --push .
 
-![Zrzut ekranu Docker Hub](buildx_build.png)
+![Logi budowania](buildx_build.png)
 Dedykowany Builder: W nagłówku logów widnieje docker-container:Docker_zad1. 
 Potwierdza to użycie własnego buildera opartego na sterowniku docker-container, co jest niezbędne do budowy wieloplatformowej.
 
@@ -23,7 +23,7 @@ Sekcja exporting cache to registry na końcu logu potwierdza, że kompletne dane
 zostały przesłane do zewnętrznego rejestru na Docker Hub pod tagiem buildcache.
 
 
-![Zrzut ekranu Docker Hub](analiza_bledow.png)
+![Raport Scout](analiza_bledow.png)
 
 Wynik skanowania potwierdza brak podatności (0C 0H 0M 0L) dzięki zastosowaniu obrazu bazowego scratch.
 Optymalizacja bezpieczeństwa została osiągnięta poprzez zastosowanie statycznej kompilacji 
