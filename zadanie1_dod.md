@@ -25,9 +25,7 @@ zostały przesłane do zewnętrznego rejestru na Docker Hub pod tagiem buildcach
 
 ![Raport Scout](analiza_bledow.png)
 
-Wynik skanowania potwierdza brak podatności (0C 0H 0M 0L) dzięki zastosowaniu obrazu bazowego scratch.
-Optymalizacja bezpieczeństwa została osiągnięta poprzez zastosowanie statycznej kompilacji 
-aplikacji w języku C oraz wykorzystanie minimalnego obrazu bazowego scratch, który nie zawiera zbędnych bibliotek systemowych ani powłoki shell.
+Wynik skanowania potwierdza całkowity brak podatności, co udało się osiągnąć dzięki wykorzystaniu minimalistycznego obrazu bazowego typu scratch, pozbawionego zbędnych bibliotek i narzędzi systemowych. Bezpieczeństwo dodatkowo wzmacnia statyczna kompilacja aplikacji w języku C, która sprawia, że kontener zawiera wyłącznie niezbędny plik binarny, eliminując tym samym potencjalne drogi ataku.
 
 Linki:
 
