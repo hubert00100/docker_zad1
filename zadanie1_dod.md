@@ -8,19 +8,11 @@ docker buildx build --platform linux/amd64,linux/arm64 `
   --push .
 
 ![Logi budowania](buildx_build.png)
-Dedykowany Builder: W nagłówku logów widnieje docker-container:Docker_zad1. 
-Potwierdza to użycie własnego buildera opartego na sterowniku docker-container, co jest niezbędne do budowy wieloplatformowej.
+Wykorzystanie dedykowanego buildera opartego na sterowniku docker-container umożliwiło równoległe przeprowadzenie budowy dla architektur linux/amd64 oraz linux/arm64, co potwierdza nagłówek logów oraz końcowy zapis o utworzeniu wspólnej listy manifestów.
 
-Pobieranie źródeł przez SSH: Linie oznaczone jako [builder 6/7] RUN --mount=type=ssh git clone... 
-potwierdzają, że proces budowania pomyślnie wykorzystał zamontowany agent SSH do bezpiecznego pobrania kodu z repozytorium GitHub.
+Proces budowania przebiegł z zachowaniem wysokich standardów bezpieczeństwa, o czym świadczą logi kroku [builder 6/7] dokumentujące użycie agenta SSH do bezpiecznego pobrania kodu źródłowego bezpośrednio z repozytorium GitHub.
 
-Budowa Wieloplatformowa (Multi-arch): W logach widoczne są równoległe procesy dla architektur linux/amd64 oraz linux/arm64. 
-Zakończyły się one utworzeniem wspólnej listy manifestów (manifest list).
-
-Zarządzanie Cache (Registry & Max Mode): * Status CACHED przy wielu krokach informuje o poprawnym odczycie warstw z pamięci podręcznej.
-
-Sekcja exporting cache to registry na końcu logu potwierdza, że kompletne dane cache (tryb max) 
-zostały przesłane do zewnętrznego rejestru na Docker Hub pod tagiem buildcache.
+Efektywność operacji została zwiększona dzięki zaawansowanemu zarządzaniu pamięcią podręczną w trybie max, co widać po statusach CACHED przy poszczególnych warstwach oraz finalnym eksporcie pełnych danych cache do zewnętrznego rejestru pod tagiem buildcache.
 
 
 ![Raport Scout](analiza_bledow.png)
